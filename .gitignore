@@ -1,0 +1,33 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs
+*.log
+
+# Docker runtime volumes and generated data
+postgres-data/
+n8n-data/
+outputs/
+workspace/
+
+# Go artifacts (runner)
+runner/bin/
+runner/dist/
+runner/coverage.out
+runner/.cache/
+runner/.tmp/
+*.test
+*.out
+
+# Optional local n8n/node artifacts
+node_modules/

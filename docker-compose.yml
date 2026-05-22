@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: first-agentic-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: n8n
+      POSTGRES_PASSWORD: n8n_password
+      POSTGRES_DB: n8n
+    ports:
+      - "5439:5432"
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: first-agentic-n8n
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "5678:5678"
+    environment:
+      DB_TYPE: postgresdb
+      DB_POSTGRESDB_HOST: postgres
+      DB_POSTGRESDB_PORT: 5432
+      DB_POSTGRESDB_DATABASE: n8n
+      DB_POSTGRESDB_USER: n8n
+      DB_POSTGRESDB_PASSWORD: n8n_password
+      GENERIC_TIMEZONE: Asia/Jakarta
+      TZ: Asia/Jakarta
+      N8N_ENCRYPTION_KEY: first_agentic_super_secret_key_change_this
+      N8N_SECURE_COOKIE: "false"
+    volumes:
+      - ./n8n-data:/home/node/.n8n
+      - ./workspace:/workspace
+      - ./prompts:/prompts
+      - ./outputs:/outputs
